@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+{% block content %}
+{% for todo in todos %}
+{# {% for category in categories %} #}
+<h1>{{todo.name}}</h1>
+<p>{{todo.description|truncatewords:5}}</p>
+<h3>{{category.name}}</h3>
+{% endfor %}
+{# {% endfor %} #}
+{% endblock content %}
