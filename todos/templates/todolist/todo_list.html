@@ -2,7 +2,7 @@
 {% block content %}
 {% for todo in todos %}
 {# {% for category in categories %} #}
-<h1>{{todo.name}}</h1>
+<a href="{% url 'todo_detail' todo.id %}"><h1>{{todo.name}}</h1></a>
 <p>{{todo.description|truncatewords:5}}</p>
 <h3>{{category.name}}</h3>
 {% endfor %}

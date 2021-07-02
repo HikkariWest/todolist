@@ -1,3 +1,4 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -26,10 +27,10 @@
           </a>
           <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
             <li><a class="dropdown-item" href="#">Список задач</a></li>
-            <li><a class="dropdown-item" href="#">Создать задачу</a></li>
+            <li><a class="dropdown-item" href="#">Список категорий</a></li>
             <li><hr class="dropdown-divider"></li>
             
-            <li><a class="dropdown-item" href="#">Удалить ненужные задачи</a></li>
+            <li><a class="dropdown-item" href="#"></a></li>
           </ul>
         </li>
       </ul>
@@ -40,8 +41,11 @@
     </div>
   </div>
 </nav>
+<div class="container">
+  
 {% block content %}
 	
 {% endblock content %}
+</div>
 </body>
 </html>
