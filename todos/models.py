@@ -34,7 +34,7 @@ class Todo(models.Model):
 
 	def __str__(self):
 		return self.name
-
+		# return self.get_lang_display()
 
 	class Meta:
 		verbose_name='Задача'

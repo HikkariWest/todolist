@@ -1,6 +1,6 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from .models import *
-from .forms import TodoForm
+from .forms import TodoUpdateForm, TodoCreateForm
 
 def todo_list(request):
 	todos = Todo.objects.all()
@@ -13,16 +13,29 @@ def todo_detail(request, todo_id):
 	context = {'todo':todo}
 	return render(request, 'todolist/todo_detail.html', context)
 
+def todo_create(request):
+	todos = Todo.objects.all()
+	categories = Category.objects.all()
+	form = TodoCreateForm(request.POST or None)
+	# if request.method == "POST":
+	# 	form = TodoCreateForm(request.POST or None)
+		if form.is_valid():
+			form.save()
+			return redirect('')
+	context = {'form':form, 'todos':todos, 'categories':categories}
+	return render(request, 'todolist/todo_create.html', context)
+
+
 def todo_update(request, todo_id):
 	categories = Category.objects.all()
 	category = request.POST.get('category_select')
 	todo = get_object_or_404(Todo, id = todo_id)
-	form = TodoForm(request.POST or None, instance = todo)
+	form = TodoUpdateForm(request.POST or None, instance = todo)
 	if request.method == "POST":
-		form = TodoForm(request.POST, instance = todo)
+		form = TodoUpdateForm(request.POST, instance = todo)
 		if form.is_valid():
 			form.save()
-			return redirect('todo_list/todo/'+id)
+			return redirect('todo_list/todo/'+todo_id)
 	context = {'form':form, 'categories':categories}
 	return render(request, 'todolist/todo_update.html', context)
 
