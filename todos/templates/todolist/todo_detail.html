@@ -11,14 +11,19 @@
 		<h2> {{todo.name}} </h2>
 		<p>{{todo.description}}</p>
 		<h4>{{category.name}}</h4>
-		<div class="col-5">		
+		<div class="col-5">	
+		<form action="." method="POST">
+			{% csrf_token %}
+			<input type="hidden" name="todo_id" value="{{todo.id}}">
 			{% if todo.completed == False %}
-				<button class="btn btn-danger" id="click">{{todo.completed|yesno:"Выполнено, Не выполнено, Ничего"}}</button>
+				<button type="submit" class="btn btn-danger" id="click">{{todo.completed|yesno:"Выполнено, Не выполнено, Ничего"}}</button>
 				<div id="block"></div>
 			{% else %}
-				<button class="btn btn-success" id="click">{{todo.completed|yesno:"Выполнено, Не выполнено, Ничего"}}</button>
+				<button type="submit" class="btn btn-success" id="click">{{todo.completed|yesno:"Выполнено, Не выполнено, Ничего"}}</button>
 				<div id="block"></div>
 			{% endif %}
+		</form>	
+
 		</div>
 		<p>{{todo.date_created}}</p>
 		<p>{{todo.interest}}</p>

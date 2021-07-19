@@ -38,9 +38,9 @@ class Category(models.Model):
 
 
 INTEREST_CHOICES = [
-		(0, 'Не важно'),
-		(1, 'Важно'),
-		(2, 'Очень важно'),
+		('Low High', 'Не важно'),
+		('High', 'Важно'),
+		('Very High', 'Очень важно'),
 	]
 
 class Todo(models.Model):
@@ -55,7 +55,7 @@ class Todo(models.Model):
 	completed = models.BooleanField(default=False)
 	category = models.ForeignKey(Category, on_delete=models.SET_NULL, null=True, related_name='category')
 	date_created = models.DateTimeField(auto_now=True)
-	interest = models.CharField(default = 0, choices=INTEREST_CHOICES, max_length = 15)
+	interest = models.CharField(default = 'Low High', choices=INTEREST_CHOICES, max_length = 15)
 
 	def __str__(self):
 		return self.name

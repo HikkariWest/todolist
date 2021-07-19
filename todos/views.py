@@ -2,6 +2,7 @@ from django.shortcuts import render, get_object_or_404, redirect
 from .models import *
 from .filters import TodoFilter
 from .forms import *
+from django.urls import reverse
 # from search_views.search import SearchListView
 # from search_views.filters import BaseFilter
 
@@ -10,15 +11,17 @@ from .forms import *
 
 def todo_list(request):
 	todos = Todo.objects.all()
-	# myFilter = TodoFilter(request.GET, queryset=todos)
-	# todos = myFilter.qs
-	# todos_filtered = TodoFilter(request.GET, queryset=todos)
 
 	context = {'todos':todos}
 	return render(request, 'todolist/todo_list.html', context)
 
 def todo_detail(request, todo_id):
 	todo = Todo.objects.get(id = todo_id)
+	if request.method == "POST":
+		todo = get_object_or_404(Todo, id=request.POST['todo_id'])
+		todo.completed = not todo.completed
+		todo.save()
+		return redirect('todo_list')
 	context = {'todo':todo}
 	return render(request, 'todolist/todo_detail.html', context)
 
@@ -30,7 +33,9 @@ def todo_create(request):
 		form = TodoCreateForm(request.POST)
 		print(form)
 		if form.is_valid():
-			form.save()
+			todo = form.save(commit = False)
+			todo.user=request.user
+			todo.save()
 			return redirect('todo_list')
 	context = {'form':form, 'todos':todos, 'categories':categories}
 	return render(request, 'todolist/todo_create.html', context)
@@ -44,7 +49,7 @@ def todo_update(request, todo_id):
 	if request.method == "POST":
 		form = TodoUpdateForm(request.POST, instance = todo)
 		if form.is_valid():
-			form.save()
+			todo.save()
 			return redirect('todo_list')
 	context = {'form':form, 'categories':categories}
 	return render(request, 'todolist/todo_update.html', context)
@@ -68,11 +73,14 @@ def todo_search(request):
 	return render(request, 'todolist/todo_list.html', context)
 
 def category_create(request):
-	form = CategoryCreateForm(instance = request.user)
+	form = CategoryCreateForm()
+	print(request.user)
 	if request.method == "POST":
-		form = CategoryCreateForm(request.POST, instance = request.user)
+		form = CategoryCreateForm(request.POST)
 		if form.is_valid():
-			form.save()
+			category = form.save(commit=False)
+			category.user=request.user
+			category.save()
 			return redirect("category_list")
 	context = {'form':form}
 	return render(request, 'todolist/category_create.html', context)
