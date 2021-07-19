@@ -19,14 +19,16 @@
 	    </div>
 	</div>
 
-	<div class="col-md-3">
+	<div class="col-md-3 mt-3">
     	<label for="validationCustom04" class="form-label">Категории</label>
-		<select class="form-select" id="validationCustom04" name="category_select" required>
-			<option selected disabled value="">Выберите категорию</option>
-			{% for category in categories %}
-			<option class="" value="{{category.name}}" name="{{category.name}}">{{category.name}}</option>
-			{% endfor %}
-		</select>
+    		{% render_field form.category class="form-cotrol" %}
+    </div>
+
+
+	<div class="col-md-3 mt-3">
+    	<label for="validationCustom04" class="form-label">Важность</label>
+			{% render_field form.interest class="form-control" %}
+	</div>
 
 	<div class="col-5 mt-2">
 		{% if todo.completed == False %}

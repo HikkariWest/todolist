@@ -1,11 +1,14 @@
 {% extends "base.html" %}
 {% load widget_tweaks %}
+{% block title %}
+	Создание задачи
+{% endblock title %}
 {% block content %}
 <form action="" method = 'POST' enctype="multipart/form-data">
 	{% csrf_token %}
 
 	<div class="row align-items-center">
-	    <div class="col-md-6 mt-4">
+	    <div class="col-md-6 mt-3">
 	    	<label for="validationCustom04" class="form-label">Имя задачи:</label>
 	        {% render_field form.name class="form-control" rows="3" cols="5" %}
 	    </div>
@@ -13,32 +16,25 @@
 
 	
 	<div class="row align-items-center" name="Описание">
-	    <div class="col-md-6 mt-4">
+	    <div class="col-md-6 mt-3">
 			<label for="validationCustom04" class="form-label">Описание:</label>
 	        {% render_field form.description class="form-control" %}
 	    </div>
 	</div>
 
-	<div class="col-md-3">
+	<div class="col-md-3 mt-3">
     	<label for="validationCustom04" class="form-label">Категории</label>
-		<select class="form-select" id="validationCustom04" name="category_select" required>
-			<option selected disabled value="">Выберите категорию</option>
-			{% for category in categories %}
-			<option class="" value="{{category.name}}" name="{{category.name}}">{{category.name}}</option>
-			{% endfor %}
-		</select>
+    		{% render_field form.category class="form-cotrol" %}
+    </div>
 
-	<div class="col-md-15">
+
+	<div class="col-md-3 mt-3">
     	<label for="validationCustom04" class="form-label">Важность</label>
-		<select class="form-select" id="validationCustom04" name="category_select" required>
-			<option selected disabled value="">Выберите важность задачи</option>
-			{% for todo in todos %}
-				<option class="" value="Важность задачи" name="{{todo.interest}}">{{todo.interest}}</option>
-			{% endfor %}
-		</select>
+			{% render_field form.interest class="form-control" %}
+	</div>
 
 	<div class="row">
-		<div class="col mt-4">
+		<div class="col mt-3">
 			<input type="submit" value="Сохранить" class="btn btn-primary">
 		</div>
 	</div>

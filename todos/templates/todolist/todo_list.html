@@ -1,10 +1,34 @@
 {% extends "base.html" %}
+{% block title %}
+	Список всех задач
+{% endblock title %}
 {% block content %}
+<h1>Список всех задач</h1>
+<table class="table table-sortable" id="sortTable">
+<thead>
+	<tr>
+      <th>ID</th>
+      <th>Имя задачи</th>
+      <th>Описание задачи</th>
+      <th>Важность</th>
+      <th>Дата создания</th>
+      <th>Статус выполнения</th>
+      <th>Категория</th>
+	</tr>
+	</thead>
 {% for todo in todos %}
-{# {% for category in categories %} #}
-<a href="{% url 'todo_detail' todo.id %}"><h1>{{todo.name}}</h1></a>
-<p>{{todo.description|truncatewords:5}}</p>
-<h3>{{category.name}}</h3>
+	<tbody>
+	  <td>{{todo.id}}</td>
+      <td><a href="{% url 'todo_detail' todo.id %}">{{todo.name}}</a></td>
+      <td>{{todo.description|truncatewords:7}}</td>
+      <td>{{todo.interest}}</td>
+      <td>{{todo.date_created}}</td>
+      <td>{{todo.completed|yesno:"Выполнено, Не выполнено, Ничего"}}</td>
+      <td>{{todo.category}}</td>
+	</tbody>
 {% endfor %}
-{# {% endfor %} #}
+</table>
+
+
 {% endblock content %}
+
