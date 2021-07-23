@@ -30,6 +30,11 @@
 			{% render_field form.interest class="form-control" %}
 	</div>
 
+	<div class="col-md-3 mt-3">
+    	<label for="validationCustom04" class="form-label">Сделанр</label>
+			{% render_field form.completed class="form-control" %}
+	</div>
+
 	<div class="col-5 mt-2">
 		{% if todo.completed == False %}
 			<button class="btn btn-danger" id="click">{{todo.completed}}</button>

@@ -3,12 +3,13 @@ from .models import *
 
 
 class TodoUpdateForm(forms.ModelForm):
+	completed = forms.BooleanField(widget= forms.CheckboxInput)
 	class Meta:
 		model = Todo
 		fields = [
 			"name",
 			"description",
-			"completed",
+			# "completed",
 			"category",
 			"interest",
 		]

@@ -40,10 +40,13 @@ def todo_create(request):
 		form = TodoCreateForm(request.POST)
 		print(form)
 		if form.is_valid():
-			if request.user.profile.quantity_todos < 10:
+			if request.user.profile.quantity_todos < 10 and request.user.profile.premium_status == False:
 				todo = form.save(commit = False)
 				todo.user=request.user
 				todo.save()
+				profile = request.user.profile
+				profile.quantity_todos += 1
+				profile.save()
 				return redirect('todo_list')
 			elif request.user.profile.quantity_todos == 10:
 				return HttpResponse("Вы уже добавили 10 задач, купите премиум и можете добавлять сколько захотите")
@@ -63,6 +66,13 @@ def todo_update(request, todo_id):
 			return redirect('todo_list')
 	context = {'form':form, 'categories':categories}
 	return render(request, 'todolist/todo_update.html', context)
+
+
+def change_todo_status(request, todo_id):
+	todo = get_object_or_404(Todo, id = todo_id)
+	todo.completed = not todo.completed
+	todo.save()
+	return redirect('todo_list')
 
 
 def category_list(request):
@@ -103,11 +113,9 @@ def profile_page(request, user_id):
 
 
 def todo_delete(request, todo_id):
-	todo = Todo.objects.get(id = todo_id)
-	if request.method == 'POST' and status == 'delete':
-		todo.delete()
-	context = {'todo':todo}
-	return render(request, 'todolist/todo_delete.html', context)
+	todo = get_object_or_404(Todo, id = todo_id)
+	todo.delete()
+	return redirect('todo_list')
 
 
 #Профили, регистрация и авторизация

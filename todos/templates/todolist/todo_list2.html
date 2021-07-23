@@ -34,19 +34,21 @@
                                                 <div class="widget-subheading"><i>{{todo.descrtiption|truncatewords:6}}</i></div>
                                             </div>
                                                 <div class="widget-content-right">
-                                                <form action="" method="POST">
+                                                {# <form action="" method="POST"> #}
+                                                    <form action="{% url 'change_todo_status' todo.id %}" method="POST">
                                                     {% csrf_token %}
                                                     {% if todo.completed == False %}
-                                                        <input type="hidden" name="completed" value="done">
                                                         <button class="border-0 btn-transition btn btn-outline-success"type="submit"> <i class="fa fa-check"></i></button>
                                                     {% else %}
-                                                        <input type="hidden" name="completed" value="done">
                                                         <button class="border-0 btn-transition btn btn-outline-danger" type="submit"> <i class="fa fa-times" aria-hidden="true"></i>
+                                                    </form>
                                                     {% endif %}
-                                                        <input type="hidden" name"status" value="delete">
+                                                    <form action="{% url 'todo_delete' todo.id %}" method="POST">
+                                                        {% csrf_token %}
                                                         <button class="border-0 btn-transition btn btn-outline-danger"type="submit"> <i class="fa fa-trash"></i>
                                                         </button>
-                                                    </form> 
+                                                    </form>
+                                                    {# </form>  #}
                                                 </div>
                                                 </div>
                                     </div>
