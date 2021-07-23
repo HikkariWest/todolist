@@ -10,4 +10,5 @@ urlpatterns = [
 	path('todo_list/todo/<int:todo_id>/edit/', todo_update, name = "todo_update"),
 	path('categories/create', category_create, name="category_create"),
 	path('profile/<int:user_id>/', profile_page, name="profile_page"),
+	path('todo_list/todo/delete/<int:todo_id>', todo_delete, name = "todo_delete"),
 ]

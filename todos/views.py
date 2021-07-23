@@ -1,8 +1,11 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from .models import *
 from .filters import TodoFilter
+from django.http import JsonResponse, HttpResponse
 from .forms import *
+from django.views import View
 from django.urls import reverse
+from .decorators import unauthanticated_user
 # from search_views.search import SearchListView
 # from search_views.filters import BaseFilter
 
@@ -11,21 +14,25 @@ from django.urls import reverse
 
 def todo_list(request):
 	todos = Todo.objects.all()
-
+	# todo = Todo.objects.get(id = todo_id)
+	# if request.method == "POST":
+	# 	todo = get_object_or_404(Todo, id=request.POST['todo_id'])
+	# 	todo.completed = not todo.completed
+	# 	todo.save()
 	context = {'todos':todos}
-	return render(request, 'todolist/todo_list.html', context)
+	return render(request, 'todolist/todo_list2.html', context)
 
 def todo_detail(request, todo_id):
 	todo = Todo.objects.get(id = todo_id)
-	if request.method == "POST":
+	if request.method == "POST" and completed =='done':
 		todo = get_object_or_404(Todo, id=request.POST['todo_id'])
 		todo.completed = not todo.completed
 		todo.save()
-		return redirect('todo_list')
 	context = {'todo':todo}
 	return render(request, 'todolist/todo_detail.html', context)
 
 def todo_create(request):
+	quantity_todos = Profile.objects.all().values("quantity_todos")
 	todos = Todo.objects.all()
 	categories = Category.objects.all()
 	form = TodoCreateForm()
@@ -33,10 +40,13 @@ def todo_create(request):
 		form = TodoCreateForm(request.POST)
 		print(form)
 		if form.is_valid():
-			todo = form.save(commit = False)
-			todo.user=request.user
-			todo.save()
-			return redirect('todo_list')
+			if request.user.profile.quantity_todos < 10:
+				todo = form.save(commit = False)
+				todo.user=request.user
+				todo.save()
+				return redirect('todo_list')
+			elif request.user.profile.quantity_todos == 10:
+				return HttpResponse("Вы уже добавили 10 задач, купите премиум и можете добавлять сколько захотите")
 	context = {'form':form, 'todos':todos, 'categories':categories}
 	return render(request, 'todolist/todo_create.html', context)
 
@@ -92,31 +102,45 @@ def profile_page(request, user_id):
 	return render(request, 'account/profile_page.html', context)
 
 
-
-# class TodoFilter(BaseFilter):
-# 	search_fields = {
-# 		'search_text' : ['name', 'description'],
-# 		'search_date_exact' : { 'operator' : '__exact', 'fields' : ['date_created'] },
-#     }
-
-# class ActorsSearchList(SearchListView):
-# 	model = Todo
-# 	paginate_by = 30
-# 	template_name = "base.html"
-# 	form_class = TodoSearchForm
-# 	filter_class = TodoFilter
+def todo_delete(request, todo_id):
+	todo = Todo.objects.get(id = todo_id)
+	if request.method == 'POST' and status == 'delete':
+		todo.delete()
+	context = {'todo':todo}
+	return render(request, 'todolist/todo_delete.html', context)
 
 
-# def todo_search(request):
-# 	search = request.GET.get('search','')
-# 	if search:
-# 		todos = Todo.objects.filter(
-# 			Q(name__icontains = search)
-# 				|
-# 			Q(description__icontains = search))
-# 		serialized_todo = serializers.serialize('json', todos, fields = ('name'))
-# 		return JsonResponse({'todos':serialized_todo})
-# 	else:
-# 		todos = Todo.objects.all()
-# 	context = {'todos':todos, 'search':search}
-# 	return render(request, '', context)
+#Профили, регистрация и авторизация
+
+@unauthanticated_user
+def registration_page(request):
+	form = CreateUserForm()
+	if request.method == 'POST':
+		form = CreateUserForm(request.POST)
+		if form.is_valid():
+			user = form.save(commit=False)
+			user.is_active = False
+			email_to = user.email
+			name = user.username
+			user.save()
+			email_template =render_to_string('users/confirmation_email.html', 
+				{
+					'name': name,
+					'domain': get_current_site(request).domain,
+					'uid': urlsafe_base64_encode(force_bytes(user.pk)),
+					'token': registration_activation_token.make_token(user),
+				})
+			email = EmailMessage(
+				'Подтвердите регистрацию',
+				email_template,
+				settings.EMAIL_HOST_USER,
+				[email_to],
+			)
+			email.content_subtype = 'html'
+			email.fail_silently=False
+			email.send()
+			messages.info(request, "Please valide your email.")
+			return redirect(login_page)
+
+	context = {'form': form}
+	return render(request, 'movies/registration_page.html', context)

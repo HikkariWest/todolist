@@ -13,7 +13,7 @@ class Profile(models.Model):
 	first_name = models.CharField(max_length = 50)
 	premium_status = models.BooleanField(default=False)
 	last_name = models.CharField(max_length = 50)
-	quantity_todos = models.IntegerField(null=True, blank=True)
+	quantity_todos = models.IntegerField(default=0, null=True, blank=True)
 	email = models.EmailField(max_length = 250, unique = True, null = True)
 	date_created = models.DateTimeField(auto_now_add=True, null=True)
 
@@ -45,11 +45,6 @@ INTEREST_CHOICES = [
 
 class Todo(models.Model):
 	user = models.ForeignKey(User, on_delete=models.CASCADE)
-	# INTEREST_CHOICES = (
-	# 	(1, ('Не важно')),
-	# 	(2, ('Важно')),
-	# 	(3, ('Очень важно')),
-	# 	)
 	name = models.CharField(max_length=100)
 	description = models.TextField(blank=True)
 	completed = models.BooleanField(default=False)
@@ -60,7 +55,6 @@ class Todo(models.Model):
 	def __str__(self):
 		return self.name
 		return f'{self.user.username}'
-		# return self.get_lang_display()
 
 	class Meta:
 		verbose_name='Задача'

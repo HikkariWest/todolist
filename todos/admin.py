@@ -14,3 +14,8 @@ class TodoAdmin(admin.ModelAdmin):
 	list_filter = ['completed', 'interest']
 	search_fields = ['name', 'category__name']
 	save_as = True
+
+
+@admin.register(Profile)
+class ProfileAdmin(admin.ModelAdmin):
+	list_display = ['user', 'photo']
