@@ -13,18 +13,19 @@ from .decorators import unauthanticated_user
 # 	return param != '' and param is not None
 
 def todo_list(request):
-	todos = Todo.objects.all()
-	# todo = Todo.objects.get(id = todo_id)
-	# if request.method == "POST":
-	# 	todo = get_object_or_404(Todo, id=request.POST['todo_id'])
-	# 	todo.completed = not todo.completed
-	# 	todo.save()
-	context = {'todos':todos}
+	categories = Category.objects.all()
+	category_name = request.POST.get('search')
+	if category_name:
+		todos = Todo.objects.all().filter(category__name__contains="category")
+	else:
+		todos = Todo.objects.all()
+	# print(filtered_todos)
+	context = {'todos':todos, 'categories':categories}
 	return render(request, 'todolist/todo_list2.html', context)
 
 def todo_detail(request, todo_id):
 	todo = Todo.objects.get(id = todo_id)
-	if request.method == "POST" and completed =='done':
+	if request.method == "POST":
 		todo = get_object_or_404(Todo, id=request.POST['todo_id'])
 		todo.completed = not todo.completed
 		todo.save()
@@ -35,6 +36,7 @@ def todo_create(request):
 	quantity_todos = Profile.objects.all().values("quantity_todos")
 	todos = Todo.objects.all()
 	categories = Category.objects.all()
+	profile = request.user.profile
 	form = TodoCreateForm()
 	if request.method == "POST":
 		form = TodoCreateForm(request.POST)
@@ -44,12 +46,19 @@ def todo_create(request):
 				todo = form.save(commit = False)
 				todo.user=request.user
 				todo.save()
-				profile = request.user.profile
+				# profile = request.user.profile
 				profile.quantity_todos += 1
 				profile.save()
 				return redirect('todo_list')
-			elif request.user.profile.quantity_todos == 10:
+			elif request.user.profile.quantity_todos == 10 and request.user.profile.premium_status == False:
 				return HttpResponse("Вы уже добавили 10 задач, купите премиум и можете добавлять сколько захотите")
+			elif request.user.profile.premium_status == True:
+				todo = form.save(commit = False)
+				todo.user=request.user
+				todo.save()
+				profile.quantity_todos += 1
+				profile.save()
+				return redirect('todo_list')
 	context = {'form':form, 'todos':todos, 'categories':categories}
 	return render(request, 'todolist/todo_create.html', context)
 
@@ -98,27 +107,33 @@ def category_create(request):
 	if request.method == "POST":
 		form = CategoryCreateForm(request.POST)
 		if form.is_valid():
-			category = form.save(commit=False)
-			category.user=request.user
-			category.save()
-			return redirect("category_list")
+			if request.user.profile.premium_status == True:
+				category = form.save(commit=False)
+				category.user=request.user
+				category.save()
+				return redirect("category_list")
+			elif request.user.profile.premium_status == False:
+				return HttpResponse("Извините, но у вас нет прав добавлять категории, купите премиум статус и можете добавлять категории")
 	context = {'form':form}
 	return render(request, 'todolist/category_create.html', context)
 
 
 def profile_page(request, user_id):
-	user = User.objects.get(id = user_id)
+	user = Profile.objects.get(id = user_id)
 	context = {'user':user}
 	return render(request, 'account/profile_page.html', context)
 
 
 def todo_delete(request, todo_id):
 	todo = get_object_or_404(Todo, id = todo_id)
-	todo.delete()
-	return redirect('todo_list')
+	if request.method == 'POST':
+		todo.delete()
+	context = {'todo':todo}
+	return render(request, 'todolist/todo_delete.html', context)
 
 
 #Профили, регистрация и авторизация
+
 
 @unauthanticated_user
 def registration_page(request):
@@ -128,27 +143,23 @@ def registration_page(request):
 		if form.is_valid():
 			user = form.save(commit=False)
 			user.is_active = False
-			email_to = user.email
 			name = user.username
 			user.save()
-			email_template =render_to_string('users/confirmation_email.html', 
-				{
-					'name': name,
-					'domain': get_current_site(request).domain,
-					'uid': urlsafe_base64_encode(force_bytes(user.pk)),
-					'token': registration_activation_token.make_token(user),
-				})
-			email = EmailMessage(
-				'Подтвердите регистрацию',
-				email_template,
-				settings.EMAIL_HOST_USER,
-				[email_to],
-			)
-			email.content_subtype = 'html'
-			email.fail_silently=False
-			email.send()
-			messages.info(request, "Please valide your email.")
-			return redirect(login_page)
-
+			return redirect("accounts/login")
 	context = {'form': form}
-	return render(request, 'movies/registration_page.html', context)
+	return render(request, 'account/registration_page.html', context)
+
+def profile_change_status_page(request):
+	return render(request, 'account/buy_subscription.html')
+
+def profile_change_status(request, user_id):
+	user = Profile.objects.get(id=user_id)
+	profile = request.user.profile
+	if request.method == "POST":
+		if profile.premium_status == False:
+			profile.premium_status = True
+			profile.save()
+		else:
+			return HttpResponse("У вас уже есть премиум статус")
+	return redirect("todo_list")
+	return render(render, 'account/buy_subscription.html')

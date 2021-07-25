@@ -1,0 +1,61 @@
+{% extends 'base.html' %}
+{% load socialaccount %}
+{% load widget_tweaks %}
+{% block content %}
+    <div class="page-wrapper bg-gra-02 p-t-130 p-b-100 font-poppins">
+        <div class="wrapper wrapper--w680">
+            <div class="card card-4">
+                <div class="card-body">
+                    <h2 class="title">Регистрация</h2>
+                    <form action="" method="POST">
+                        {% csrf_token %}
+                        <div class="row row-space">
+                            <div class="col-2-mt-2">
+                                <div class="input-group">
+                                    <label class="label">Логин</label>
+                                    {% render_field form.username class="input--style-4" %}
+                                    <!-- {{form.username}} -->
+                                </div>
+                            </div>
+                        
+                            <div class="col-2-mt-2">
+                                <div class="input-group">
+                                    <label class="label">Пароль</label>
+                                    {% render_field form.password1 class="input--style-4" %}
+                                </div>
+                            </div>
+                            <div class="col-2-mt-2">
+                                <div class="input-group">
+                                    <label class="label">Повторите пароль</label>
+                                    {% render_field form.password2 class="input--style-4" %}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row row-space">
+                            <div class="col-2-mt-2">
+                                <div class="input-group">
+                                    <label class="label">Почта</label>
+                                    {% render_field form.email class="input--style-4" %}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="text-center ">
+                            <button type="submit" class=" btn btn-block send-button tx-tfm">Зарегестрироваться</button>
+                        </div>
+                        <div class="col-md-12 ">
+                            <div class="login-or">
+                                <hr class="hr-or">
+                                <span class="span-or">или</span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <a class="btn btn-block g-button" href="{% provider_login_url 'google' %}">
+                                <i class="fa fa-google"></i>  Авторизуйтесь через Google
+                            </a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock content %}

@@ -36,15 +36,31 @@
                     </div>
                   </div>
                   <hr>
+                  <div class="row">
+                    <div class="col-sm-3">
+                      <h6 class="mb-0">Premium Status</h6>
+                    </div>
+                      {% if user.profile.premium == False %}
+                    <div class="col-sm-9 text-secondary">
+                        Премиум статуса нет
+                    </div>
+                      {% elif user.profile.premium == True%}
+                    <div class="col-sm-9 text-secondary">
+                        Премиум статус есть
+                    </div>
+                      {% endif %}
+                  </div>
                   </div>
                   
-                  <div class="card-footer text-muted" style="background-color: #F3D6B0">
+                  <div class="card-footer text-muted">
                     <div class="row" >
-                      <div class="col-sm-12" >
-                        <a class="btn btn-info " target="__blank" href="https://www.bootdey.com/snippets/view/profile-edit-data-and-skills">Edit</a>
+                      <div class="col-sm-12">
+                        <a class="btn btn-info " target="__blank" href="https://www.bootdey.com/snippets/view/profile-edit-data-and-skills">Редактировать профиль</a>
+                        <a class="btn btn-success" href="{% url 'profile_change_status_page' %}">Купить подписку</a>
                       </div>
                     </div>
-                  </div>
+                  </div> 
+
                 </div>
               </div>
 
