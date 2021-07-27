@@ -116,3 +116,71 @@ formTable(".wrapper");
 
 Удаленный из todo_list.html badge
 <div class="badge badge-success ml-2"></div>
+
+Удаленный render_field
+        {% render_field form.username class="form-control" style="width: 100%; padding: 12px; border: none; border-radius: 4px; margin: 5px 0; opacity: 0.85; display: inline-block; font-size: 17px; line-height: 20px; text-decoration: none;" placeholder="Логин" %}
+        {% render_field form.password class="form-control" style="width: 100%; padding: 12px; border: none; border-radius: 4px; margin: 5px 0; opacity: 0.85; display: inline-block; font-size: 17px; line-height: 20px; text-decoration: none;" placeholder="Пароль" %}
+
+
+Создание категорий
+@login_required(login_url='login_page')
+def category_create(request):
+    form = CategoryCreateForm()
+    print(request.user)
+    if request.method == "POST":
+        form = CategoryCreateForm(request.POST)
+        if form.is_valid():
+            if request.user.profile.premium_status == True:
+                category = form.save(commit=False)
+                category.user=request.user
+                category.save()
+                return redirect("category_list")
+            elif request.user.profile.premium_status == False:
+                return HttpResponse("Извините, но у вас нет прав добавлять категории, купите премиум статус и можете добавлять категории")
+    context = {'form':form}
+    return render(request, 'todolist/category_create.html', context)
+
+Неработающий поиск задач
+# @login_required(login_url='login_page')
+# def todo_search(request):
+#   search_request = request.GET.get('q')
+#   if search_request:
+#       print(search_request)
+#       todos = Todo.objects.filter(name__istartswith = search_request)
+#       todos2 = Todo.objects.filter(description__istartswith = search_request)
+#       context = {'todos':todos, 'todos2':todos2}
+#   else:
+#       todos = Todo.objects.all()
+#   context = {'todos':todos}
+#   return render(request, 'todolist/todo_list.html', context)
+
+Удаленный шаблон для создания категорий
+{% extends "base.html" %}
+{% load widget_tweaks %}
+{% block content %}
+    <form action="" method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+
+        <div class="row align-items-center">
+            <div class="col-md-6 mt-3">
+                <label for="validationCustom04" class="form-label">Имя категории:</label>
+              {% render_field form.name class="form-control" rows="3" cols="5" %}
+            </div>
+        </div>
+
+    
+        <div class="row align-items-center" name="Описание">
+           <div class="col-md-6 mt-3">
+                <label for="validationCustom04" class="form-label">Описание категории:</label>
+                {% render_field form.description class="form-control" placheholder="Опишите вкратце вашу категорию" %}
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col mt-3">
+                <input type="submit" value="Сохранить" class="btn btn-primary">
+            </div>
+        </div>
+    </form>
+    
+{% endblock content %}

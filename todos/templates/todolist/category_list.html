@@ -1,7 +1,30 @@
 {% extends "base.html" %}
+{% block title %}
+	Список категорий
+{% endblock title %}
 {% block content %}
+<style>
+	body{
+		width: 100vw;
+		height: 100vh;
+	}
+</style>
+<div class="container container--category">
+	<table class="table-category" style="border-radius:10px; background-color: #CF58C5; font-size:20px">
+		<thead class="category-thead" >
+			<tr class="category-text">
+				<th class="category-text" style="background-color:#CF33C2">Название категории</th>
+				<th class="category-text" style="background-color:#CF33C2">Описание</th>
+			</tr>
+		</thead>
 	{% for category in categories %}
-	
-		<h1>{{category.name}}</h1>
+		<tbody class="category-tbody" >
+			<tr class="category-text">
+				<td class="category-text">{{category.name}}</td>
+				<td class="category-text">{{category.description}}</td>
+			</tr>
+		</tbody>
 	{% endfor %}
+	</table>
+</div>
 {% endblock content %}

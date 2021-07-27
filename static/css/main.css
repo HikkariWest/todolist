@@ -9,6 +9,11 @@ body {
     background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
     background-size: 400% 400%;
     animation: gradient 15s ease infinite;
+    max-width: 100vw !important;
+    max-height: 100vw !important;
+}
+html{
+    width: 100vw;
 }
 
 
@@ -366,9 +371,12 @@ padding: 8px 25px;
 .justify-content-center{
     height: auto;
 }
-/*.card-5{
+.card-5{
+    border-radius: 10px;
     background-color:rgba(0, 0, 0, 0.5);
-}*/
+    -webkit-backdrop-filter: blur(10px);
+    backdrop-filter: blur(10px);
+}
 /* Style the tab */
 .tab {
     float: left;
@@ -415,4 +423,148 @@ padding: 8px 25px;
 
 .text-end{
     margin-left: auto;
+}
+
+/* Style inputs, select elements and textareas */
+input[type=text], select, textarea{
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+  resize: vertical;
+}
+
+/* Style the label to display next to the inputs */
+label {
+  padding: 12px 12px 12px 0;
+  display: inline-block;
+}
+
+/* Style the submit button */
+input[type=submit] {
+  background-color: #4CAF50;
+  color: white;
+  padding: 12px 20px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  float: right;
+}
+
+/* Style the container */
+.container--2 {
+  border-radius: 5px;
+  background-color: #f2f2f2;
+  padding: 20px;
+}
+
+/* Floating column for labels: 25% width */
+.col-25 {
+  float: left;
+  width: 25%;
+  margin-top: 6px;
+}
+
+/* Floating column for inputs: 75% width */
+.col-75 {
+  float: left;
+  width: 75%;
+  margin-top: 6px;
+}
+
+/* Clear floats after the columns */
+.row:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
+/* Responsive layout - when the screen is less than 600px wide, make the two columns stack on top of each other instead of next to each other */
+@media screen and (max-width: 600px) {
+  .col-25, .col-75, input[type=submit] {
+    width: 100%;
+    margin-top: 0;
+  }
+}
+
+.todo_details{
+    color: #fff;
+}
+
+.todo_details1{
+    font-size: 25px;
+    color: #fff;
+    width:20%; 
+    position: relative; 
+    right: -100px; 
+    height:70px
+}
+
+.container--category html {
+    height: 100%;
+}
+
+
+.container--category .container {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.container--category .table-category {
+    width: 800px;
+    border-collapse: collapse;
+    overflow: hidden;
+    box-shadow: 0 0 20px rgba(0,0,0,0.1);
+}
+
+.container--category .category-text {
+    padding: 15px;
+    background-color: rgba(255,255,255,0.2);
+    text-align: left;
+}
+
+
+.container--category .category-thead {
+    th {
+        background-color: #372F85;
+    }
+}
+
+.container--category .category-tbody {
+    .category-text {
+        &:hover {
+            background-color: rgba(255,255,255,0.3);
+        }
+    }
+    .container--category .category-text {
+        position: relative;
+        &:hover {
+            &:before {
+                content: "";
+                position: absolute;
+                left: 0;
+                right: 0;
+                top: -9999px;
+                bottom: -9999px;
+                background-color: #3A2E85;
+                z-index: -1;
+            }
+        }
+    }
+}
+.card-1 {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    word-wrap: break-word;
+    background-color: #fff;
+    background-clip: border-box;
+    border: 0 solid transparent;
+    border-radius: .25rem;
+    margin-bottom: 1.5rem;
+    box-shadow: 0 2px 6px 0 rgb(218 218 253 / 65%), 0 2px 6px 0 rgb(206 206 238 / 54%);
 }

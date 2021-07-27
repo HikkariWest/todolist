@@ -3,7 +3,8 @@
 	Покупка подписки
 {% endblock title %}
 {% block content %}
-<form action="{% url 'profile_change_status' user.id %}">
+<form action="{% url 'profile_change_status' user.id %}" method="POST">
+  {% csrf_token %}
 <div class="columns columns--4">
   <ul class="price">
     <li class="header">Premium</li>

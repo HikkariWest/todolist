@@ -4,43 +4,48 @@
 	Создание задачи
 {% endblock title %}
 {% block content %}
-<div>
-	
-	<form action="" method = 'POST' enctype="multipart/form-data">
-	{% csrf_token %}
 
-	<div class="row align-items-center">
-	    <div class="col-md-6 mt-3">
-	    	<label for="validationCustom04" class="form-label">Имя задачи:</label>
-	        {% render_field form.name class="form-control" rows="3" cols="5" %}
-	    </div>
-	</div>
-
-	
-	<div class="row align-items-center" name="Описание">
-	    <div class="col-md-6 mt-3">
-			<label for="validationCustom04" class="form-label">Описание:</label>
-	        {% render_field form.description class="form-control" %}
-	    </div>
-	</div>
-
-	<div class="col-md-3 mt-3">
-    	<label for="validationCustom04" class="form-label">Категории</label>
-    		{% render_field form.category class="form-cotrol" %}
+ <div class="container--2">
+  <form action="" method="POST" enctype="multipart/form-data">
+  	{% csrf_token %}
+    <div class="row">
+      <div class="col-25">
+        <label for="todo_name">Имя задачи</label>
+      </div>
+      <div class="col-75">
+      	{% render_field form.name class="form-control" placeholder="Введите имя задачи..." style="width: 100%; padding: 12px; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box; resize: vertical;"%}
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-25">
+        <label for="description">Описание</label>
+      </div>
+      <div class="col-75">
+      	{% render_field form.description class="form-control" placeholder="Введите описание задачи..." style="width: 100%; padding: 12px; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box; resize: vertical;" %}
+    </div>
+    </div>
+    <div class="row">
+      <div class="col-25">
+        <label for="category_name">Категория</label>
+      </div>
+      <div class="col-75">
+		{% render_field form.category class="form-control" style="margin-bottom:5px; margin-top:10px; width: 100%; padding: 12px; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box; resize: vertical;" placeholder="Выберите категорию"%}
+      </div>
     </div>
 
-
-	<div class="col-md-3 mt-3">
-    	<label for="validationCustom04" class="form-label">Важность</label>
-			{% render_field form.interest class="form-control" %}
-	</div>
-
-	<div class="row">
-		<div class="col mt-3">
-			<input type="submit" value="Сохранить" class="btn btn-primary">
-		</div>
-	</div>
-</form>
+    <div class="row">
+      <div class="col-25">
+        <label for="category_name">Важность</label>
+      </div>
+      <div class="col-75">
+		{% render_field form.interest class="form-control" style="margin-bottom:18px; width: 100%; padding: 12px; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box; resize: vertical;"%}
+      </div>
+    </div>
+    <div class="row">
+      <input type="submit" value="Сохранить">
+    </div>
+  </form>
 </div>
+
 
 {% endblock content %}

@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+{% block title %}
+  Вход
+{% endblock title %}
+{% load socialaccount %}
+{% load widget_tweaks %}
+{% block content %}
+<div class="container container-1">
+  <form action="{% url 'login_page' %}" method="POST">
+      {% if form.errors %}
+        <div class="row align-items-center mt-4">
+          <div class="col">
+            <div class="alert alert-danger" role="alert">
+              Пожалуйста, введите правильные имя пользователя и пароль. Оба поля могут быть чувствительны к регистру.
+              </div>
+            </div>
+          </div>
+          {% endif %}
+          {% for message in messages %}
+            <p id="messages">{{message}}</p>
+          {% endfor %}
+    {% csrf_token %}
+    <div class="row">
+      <h2 style="text-align:center">Войдите через свой аккаунт или социальные сети</h2>
+
+      <div class="col" style="margin:auto">
+        <a href="{% provider_login_url 'google' %}" class="google btn">
+          <i class="fa fa-google fa-fw"></i> Авторизоваться через Google+
+        </a>
+      </div>
+
+      <div class="col">
+        <div class="hide-md-lg">
+          <p>Or sign in manually:</p>
+        </div>
+        {% render_field form.username class="form-control" style="width: 100%; padding: 12px; border: none; border-radius: 4px; margin: 5px 0; opacity: 0.85; display: inline-block; font-size: 17px; line-height: 20px; text-decoration: none;"  %}
+        {% render_field form.password class="form-control" style="width: 100%; padding: 12px; border: none; border-radius: 4px; margin: 5px 0; opacity: 0.85; display: inline-block; font-size: 17px; line-height: 20px; text-decoration: none;"  %}
+        <input type="submit" value="Войти">
+      </div>
+
+    </div>
+  </form>
+</div>
+
+<div class="bottom-container">
+  <div class="row">
+    <div class="col">
+      <a href="{% url 'registration_page' %}" style="color:white" class="btn">Зарегистрироваться</a>
+    </div>
+    <div class="col">
+      <a href="{% url 'password_reset' %}" style="color:white" class="btn">Забыли пароль?</a>
+    </div>
+  </div>
+</div>
+{% endblock content %}
