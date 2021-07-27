@@ -31,7 +31,6 @@ post_save.connect(create_user_profile, sender=User)
 
 
 class Category(models.Model):
-	user = models.ForeignKey(User, on_delete=models.CASCADE)
 	name = models.CharField(max_length=100)
 	description = models.TextField(blank=True)
 

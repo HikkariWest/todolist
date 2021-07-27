@@ -14,10 +14,10 @@ from django.contrib.auth.decorators import login_required
 
 @login_required(login_url='login_page')
 def todo_list(request):
-	categories = Category.objects.all().filter(user=request.user)
-	todos = Todo.objects.all().filter(user=request.user)
+	categories = Category.objects.all()
+	todos = Todo.objects.filter(user=request.user)
 	context = {'todos':todos, 'categories':categories}
-	return render(request, 'todolist/todo_list2.html', context)
+	return render(request, 'todolist/todo_list.html', context)
 
 @login_required(login_url='login_page')
 def todo_detail(request, todo_id):
