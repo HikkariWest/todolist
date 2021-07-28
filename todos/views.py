@@ -1,7 +1,7 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from .models import *
 from .filters import TodoFilter
-from django.http import JsonResponse, HttpResponse, HttpResponseRedirect
+from django.http import HttpResponse, HttpResponseRedirect
 from django.contrib import messages
 from django.contrib.auth import update_session_auth_hash
 from django.contrib.auth.forms import PasswordChangeForm
@@ -35,22 +35,21 @@ def todo_detail(request, todo_id):
 
 @login_required(login_url='login_page')
 def todo_create(request):
-	quantity_todos = Profile.objects.all().values("quantity_todos")
-	todos = Todo.objects.all()
+	todos = Todo.objects.values('interest')
 	categories = Category.objects.all()
 	profile = request.user.profile
 	form = TodoCreateForm()
 	if request.method == "POST":
 		form = TodoCreateForm(request.POST)
 		if form.is_valid():
-			if request.user.profile.quantity_todos < 10 or request.user.profile.premium_status == True:
+			if profile.quantity_todos < 10 or profile.premium_status == True:
 				todo = form.save(commit = False)
 				todo.user=request.user
 				todo.save()
 				profile.quantity_todos += 1
 				profile.save()
 				return redirect('todo_list')
-			elif request.user.profile.quantity_todos >= 10 and request.user.profile.premium_status == False:
+			elif profile.quantity_todos >= 10 and profile.premium_status == False:
 				return redirect("profile_change_status_page")
 	context = {'form':form, 'todos':todos, 'categories':categories}
 	return render(request, 'todolist/todo_create.html', context)
