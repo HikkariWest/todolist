@@ -22,6 +22,8 @@ def todo_list(request):
 @login_required(login_url='login_page')
 def todo_detail(request, todo_id):
 	todo = Todo.objects.get(id = todo_id)
+	if todo.user != request.user:
+		return redirect('todo_list')
 	if todo.user == request.user:
 		if request.method == "POST":
 			todo = get_object_or_404(Todo, id=request.POST['todo_id'])
@@ -40,9 +42,8 @@ def todo_create(request):
 	form = TodoCreateForm()
 	if request.method == "POST":
 		form = TodoCreateForm(request.POST)
-		print(form)
 		if form.is_valid():
-			if request.user.profile.quantity_todos < 10 and request.user.profile.premium_status == False:
+			if request.user.profile.quantity_todos < 10 or request.user.profile.premium_status == True:
 				todo = form.save(commit = False)
 				todo.user=request.user
 				todo.save()
@@ -51,13 +52,6 @@ def todo_create(request):
 				return redirect('todo_list')
 			elif request.user.profile.quantity_todos >= 10 and request.user.profile.premium_status == False:
 				return redirect("profile_change_status_page")
-			elif request.user.profile.premium_status == True:
-				todo = form.save(commit = False)
-				todo.user=request.user
-				todo.save()
-				profile.quantity_todos += 1
-				profile.save()
-				return redirect('todo_list')
 	context = {'form':form, 'todos':todos, 'categories':categories}
 	return render(request, 'todolist/todo_create.html', context)
 
@@ -67,11 +61,12 @@ def todo_create(request):
 def todo_update(request, todo_id):
 	categories = Category.objects.all()
 	todo = get_object_or_404(Todo, id = todo_id)
+	if todo.user != request.user:
+		return redirect('todo_list')
 	form = TodoUpdateForm(instance=todo)
 	if request.method == "POST" and todo.user == request.user:
 		form = TodoUpdateForm(request.POST, instance = todo)
 		if form.is_valid():
-			print(form)
 			form.save()
 			return redirect('todo_list')
 	context = {'form':form, 'categories':categories}
@@ -81,6 +76,8 @@ def todo_update(request, todo_id):
 @login_required(login_url='login_page')
 def change_todo_status(request, todo_id):
 	todo = get_object_or_404(Todo, id = todo_id)
+	if todo.user != request.user:
+		return redirect('todo_list')
 	todo.completed = not todo.completed
 	todo.save()
 	return redirect('todo_list')
@@ -95,6 +92,8 @@ def category_list(request):
 @login_required(login_url='login_page')
 def todo_delete(request, todo_id):
 	todo = get_object_or_404(Todo, id = todo_id)
+	if todo.user != request.user:
+		return redirect('todo_list')
 	if request.method == 'POST':
 		todo.delete()
 		return redirect('todo_list')

@@ -150,6 +150,11 @@ i {
     margin-left: auto
 }
 
+.widget-content-left{
+    position: relative; 
+    right: -15px;
+}
+
 .btn:not(:disabled):not(.disabled) {
     cursor: pointer
 }
@@ -198,6 +203,10 @@ i {
 .fa-home {
 color: #F4FE40;
 font-size: 40px;
+}
+
+.fa-tasks{
+    font-size:19px;
 }
 
 a {
@@ -253,6 +262,7 @@ span{
 .price .grey {
     background-color: #eee;
     font-size: 20px;
+    border-bottom: 1px solid #000;
 }
 
 /* The "Sign Up" button */
@@ -376,6 +386,7 @@ padding: 8px 25px;
     background-color:rgba(0, 0, 0, 0.5);
     -webkit-backdrop-filter: blur(10px);
     backdrop-filter: blur(10px);
+    position:relative;
 }
 /* Style the tab */
 .tab {
@@ -423,6 +434,7 @@ padding: 8px 25px;
 
 .text-end{
     margin-left: auto;
+    font-style:italic;
 }
 
 /* Style inputs, select elements and textareas */
@@ -490,21 +502,50 @@ input[type=submit] {
 
 .todo_details{
     color: #fff;
+    font-size: 28px;
+    position:relative; right:-100px;
 }
 
 .todo_details1{
-    font-size: 25px;
-    color: #fff;
-    width:20%; 
+    font-size: 25px; 
+    color: #fff; 
+    width:50%; 
+    position:relative; 
+    right:-100px
+}
+
+.todo_details2{
+    font-size: 30px; 
+    color: #fff; 
+    position: relative; 
+    right: -740px;
+}
+
+.todo_details3{
+    font-size: 25px; 
+    color: #fff; 
     position: relative; 
     right: -100px; 
-    height:70px
+    margin-top:100px;
 }
+
+.todo_details4{
+    font-size: 25px; 
+    color: #fff; 
+    position: relative; 
+    right: -100px; 
+    margin-top:10px;
+}
+
 
 .container--category html {
     height: 100%;
 }
 
+.h1-todo-detail{
+    text-align:center; 
+    margin-bottom:20px;
+}
 
 .container--category .container {
     position: absolute;
@@ -518,6 +559,9 @@ input[type=submit] {
     border-collapse: collapse;
     overflow: hidden;
     box-shadow: 0 0 20px rgba(0,0,0,0.1);
+    border-radius:10px;
+    background-color: #CF58C5;
+    font-size:20px;
 }
 
 .container--category .category-text {
@@ -525,7 +569,6 @@ input[type=submit] {
     background-color: rgba(255,255,255,0.2);
     text-align: left;
 }
-
 
 .container--category .category-thead {
     th {
@@ -567,4 +610,104 @@ input[type=submit] {
     border-radius: .25rem;
     margin-bottom: 1.5rem;
     box-shadow: 0 2px 6px 0 rgb(218 218 253 / 65%), 0 2px 6px 0 rgb(206 206 238 / 54%);
+}
+
+
+.category-text-1 {
+    background-color:#CF33C2;
+}
+
+.table-sub {
+    margin-bottom:5px;
+}
+
+.th-sub {
+    width:50%;
+}
+
+.category-text-2{
+    background-color: #CF33C2;
+}
+
+.card-password-reset-confirm{
+    position:relative; 
+    border-radius: 10px; 
+    background-color:rgba(0, 0, 0, 0.4); 
+    -webkit-backdrop-filter: blur(10px); 
+    backdrop-filter: blur(10px); 
+    height:600px;
+}
+
+.card-password-reset{
+    position:relative; 
+    border-radius: 10px; 
+    background-color:rgba(0, 0, 0, 0.4); 
+    -webkit-backdrop-filter: blur(10px); 
+    backdrop-filter: blur(10px); 
+    height:500px
+}
+
+.h1-password-reset{
+    text-align:center; 
+    font-size:43px; 
+    color: #fff;
+}
+
+.p-password-reset{
+    text-align:center; 
+    font-size:24px; 
+    color: #fff; 
+    margin-top:30px;
+}
+
+.h6-password-reset{
+    text-align:center; 
+    font-size:24px; 
+    color: #fff; 
+    margin-left:50px;
+}
+
+.input-password-reset{
+    width:80%; 
+    height: 50%; 
+    margin-right:120px; 
+    margin-top:60px;
+}
+
+.div-password-reset{
+    margin:0 auto;
+}
+
+.h2-password-reset-confirm{
+    text-align:center; 
+    font-size:43px; 
+    color: #fff;
+}
+
+.p-password-reset-confirm{
+    text-align:center; 
+    font-size:20px; 
+    color: #fff;
+}
+
+.span-password-reset-confirm{
+    text-align:center; 
+    font-size:20px;
+    color: #fff;
+}
+
+.card-password-reset-done{
+    position:relative; 
+    border-radius: 10px; 
+    background-color:rgba(0, 0, 0, 0.4); 
+    -webkit-backdrop-filter: blur(10px); 
+    backdrop-filter: blur(10px); 
+    height:500px;
+}
+
+.p-password-reset-done{
+    text-align:center; 
+    font-size:24px; 
+    color: #fff; 
+    margin-top:30px;
 }

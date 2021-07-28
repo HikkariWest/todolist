@@ -9,27 +9,27 @@
 		overflow: hidden auto;
 	}
 </style>
-<h1>Информация по задаче {{todo.name}}</h1>
-<div class="card card-5" style="position:relative">
+<h1 class="h1-todo-detail">Информация по задаче {{todo.name}}</h1>
+<div class="card card-5">
 	
 		<div class="row mt-4"  >
-			<h1 class="todo_details" style="font-size: 28px; color: #fff; position:relative; right:-100px">Имя задачи: {{todo.name}}</h1>
-			<p style="font-size: 25px; color: #fff; width:50%; position:relative; right:-100px">Описание:<br>{{todo.description}}</p>
+			<h1 class="todo_details">Имя задачи: {{todo.name}}</h1>
+			<p class="todo_details1">Описание:<br>{{todo.description}}</p>
 			<h2 class="todo_details">{{category.name}}</h2>
 			<div class="col-5">	
 
 			</div>
-			<h3 class="todo_details" style="font-size: 30px; color: #fff; position: relative; right: -780px;">Дата создания: {{todo.date_created}}</h3>
-			<h4 class="todo_details" style="font-size: 25px; color: #fff; position: relative; right: -100px; margin-top:100px;">Важность задачи: {{todo.get_interest_display}}</h4>
-			<h5 class="todo_details" style="font-size: 25px; color: #fff; position: relative; right: -100px; margin-top:10px;">Категория: {{todo.category}}<h5>
+			<h3 class="todo_details2">Дата создания: {{todo.date_created}}</h3>
+			<h4 class="todo_details3">Важность задачи: {{todo.get_interest_display}}</h4>
+			<h5 class="todo_details4">Категория: {{todo.category}}<h5>
 			<form action="{% url 'change_todo_status' todo.id %}" method="POST">
 				{% csrf_token %}
 				<input type="hidden" name="todo_id" value="{{todo.id}}">
 				{% if todo.completed == False %}
-					<button type="submit" class="btn btn-danger" id="click" style="width:20%; position: relative; right: -1000px; height:70px">{{todo.completed|yesno:"Выполнено, Не выполнено, Ничего"}}</button>
+					<button type="submit" class="btn btn-danger btn-change-status" id="click" style="width:20%; position: relative; right: -1000px; height:70px">{{todo.completed|yesno:"Выполнено, Не выполнено, Ничего"}}</button>
 					<div id="block"></div>
 				{% else %}
-					<button type="submit" class="btn btn-success" id="click" style="width:20%; position: relative; right: -1000px; height:70px">{{todo.completed|yesno:"Выполнено, Не выполнено, Ничего"}}</button>
+					<button type="submit" class="btn btn-success btn-change-status" id="click" style="width:20%; position: relative; right: -1000px; height:70px">{{todo.completed|yesno:"Выполнено, Не выполнено, Ничего"}}</button>
 					<div id="block"></div>
 				{% endif %}
 			</form>	
