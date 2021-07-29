@@ -12,6 +12,17 @@ from .decorators import unauthanticated_user
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 
+
+@login_required(login_url='login_page')
+def change_todo_status(request, todo_id):
+	todo = get_object_or_404(Todo, id = todo_id)
+	if todo.user != request.user:
+		return redirect('todo_list')
+	todo.completed = not todo.completed
+	todo.save()
+	return redirect('todo_list')
+
+
 @login_required(login_url='login_page')
 def todo_list(request):
 	categories = Category.objects.all()
@@ -24,11 +35,6 @@ def todo_detail(request, todo_id):
 	todo = Todo.objects.get(id = todo_id)
 	if todo.user != request.user:
 		return redirect('todo_list')
-	if todo.user == request.user:
-		if request.method == "POST":
-			todo = get_object_or_404(Todo, id=request.POST['todo_id'])
-			todo.completed = not todo.completed
-			todo.save()
 	context = {'todo':todo}
 	return render(request, 'todolist/todo_detail.html', context)
 
@@ -72,14 +78,6 @@ def todo_update(request, todo_id):
 	return render(request, 'todolist/todo_update.html', context)
 
 
-@login_required(login_url='login_page')
-def change_todo_status(request, todo_id):
-	todo = get_object_or_404(Todo, id = todo_id)
-	if todo.user != request.user:
-		return redirect('todo_list')
-	todo.completed = not todo.completed
-	todo.save()
-	return redirect('todo_list')
 
 @login_required(login_url='login_page')
 def category_list(request):
@@ -116,7 +114,6 @@ def registration_page(request):
 		if form.is_valid():
 			user = form.save(commit=False)
 			user.is_active = True
-			name = user.username
 			user.save()
 			return redirect("login_page")
 	context = {'form': form}
@@ -185,7 +182,7 @@ def change_password(request):
 		if form.is_valid():
 			user = form.save()
 			update_session_auth_hash(request, user)  # Important!
-			messages.success(request, 'Your password was successfully updated!', extra_tags='safe')
+			messages.success(request, 'Ваш пароль был успешно изменен!', extra_tags='safe')
 			return redirect('change_password')
 		else:
 			messages.error(request, 'Пожалуйста, исправьте ошибку ниже.', extra_tags='safe')

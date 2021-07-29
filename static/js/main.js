@@ -3,7 +3,7 @@ let bool = true;
 click.addEventListener("click", function() {
   block.innerHTML = bool;
   bool = !bool;
-})
+});
 
 $(document).ready(function() {
    let form = $('form');
