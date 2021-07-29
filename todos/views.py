@@ -1,13 +1,10 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from .models import *
-from .filters import TodoFilter
-from django.http import HttpResponse, HttpResponseRedirect
+from django.http import HttpResponse
 from django.contrib import messages
 from django.contrib.auth import update_session_auth_hash
 from django.contrib.auth.forms import PasswordChangeForm
 from .forms import *
-from django.views import View
-from django.urls import reverse
 from .decorators import unauthanticated_user
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
