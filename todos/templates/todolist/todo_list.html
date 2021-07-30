@@ -32,6 +32,9 @@
                                                 </div>
                                             </div>
                                             <p class="text-end">{{todo.get_interest_display}}</p>
+                                            <div class="row div-category">
+                                                <button class="button-category">{{todo.category}}</button>
+                                            </div>
                                                 <div class="widget-content-right">
                                                     <form action="{% url 'change_todo_status' todo.id %}" method="POST">
                                                     {% csrf_token %}

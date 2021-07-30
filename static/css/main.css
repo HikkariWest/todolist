@@ -711,3 +711,16 @@ input[type=submit] {
     color: #fff; 
     margin-top:30px;
 }
+
+.button-category{
+    margin-top: 50px;
+    margin-left: 140px;
+    border: 2px solid black;
+    padding: 1px 1px;
+    pointer-events: none;
+
+}
+
+.div-category{
+    width: 10%;
+}
