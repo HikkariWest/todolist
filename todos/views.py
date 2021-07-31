@@ -61,7 +61,7 @@ def todo_create(request): #Функция создания задачи
 
 @login_required(login_url='login_page')
 def todo_update(request, todo_id): #Функция редактирования задач
-	categories = Category.objects.all() #Достаем все категории из базы данных
+	categories = Category.objects.all() #Достаем все категории из базы данных, используется на строке 31, в файле todo_update.html
 	todo = get_object_or_404(Todo, id = todo_id) #Достаем задачу по айди, которую будем редактировать
 	if todo.user != request.user: #Проверяем принадлежит ли задача авторизованному пользователю
 		return redirect('todo_list') #Переадресация на список задач
