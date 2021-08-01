@@ -67,6 +67,7 @@ class Todo(models.Model):
 	class Meta:
 		verbose_name='Задача'
 		verbose_name_plural = 'Задачи'
+		ordering = ('completed',)
 
 
 	# def sub_check():

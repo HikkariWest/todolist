@@ -38,8 +38,6 @@ def todo_detail(request, todo_id): #Функция подробностей за
 
 @login_required(login_url='login_page')
 def todo_create(request): #Функция создания задачи
-	todos = Todo.objects.values('interest') #Достаем поле важности из модели Todo, чтобы потом выбрать его при создании
-	categories = Category.objects.all() #Достаем категории из базы данных
 	profile = request.user.profile #Создаем переменную, которую, ниже в этой функции, будем использовать чтобы сократить несколько букв
 	form = TodoCreateForm() #Определяем форму
 	if request.method == "POST": #Проверка на метод POST
@@ -54,14 +52,13 @@ def todo_create(request): #Функция создания задачи
 				return redirect('todo_list') #Переход на страницу списка задач
 			elif profile.quantity_todos >= 10 and profile.premium_status == False: #Противоположная проверка, что если у пользователя больше задач, чем 10 и нет премиум статуса, то создавать задачи он не может
 				return redirect("profile_change_status_page") #Переход на страницу покупки премиум статуса
-	context = {'form':form, 'todos':todos, 'categories':categories}
+	context = {'form':form}
 	return render(request, 'todolist/todo_create.html', context)
 
 
 
 @login_required(login_url='login_page')
 def todo_update(request, todo_id): #Функция редактирования задач
-	categories = Category.objects.all() #Достаем все категории из базы данных, используется на строке 31, в файле todo_update.html
 	todo = get_object_or_404(Todo, id = todo_id) #Достаем задачу по айди, которую будем редактировать
 	if todo.user != request.user: #Проверяем принадлежит ли задача авторизованному пользователю
 		return redirect('todo_list') #Переадресация на список задач
@@ -71,7 +68,7 @@ def todo_update(request, todo_id): #Функция редактирования 
 		if form.is_valid(): #Проверяем форму на валидность
 			form.save() #Сохраняем форму
 			return redirect('todo_list') #Переходим на страницу списка задач
-	context = {'form':form, 'categories':categories}
+	context = {'form':form}
 	return render(request, 'todolist/todo_update.html', context)
 
 
