@@ -159,6 +159,8 @@ SITE_ID = 1
 
 LOGIN_REDIRECT_URL = 'todo_list'
 
+AUTH_USER_EMAIL_UNIQUE = True
+
 SOCIALACCOUNT_PROVIDERS = {
     'google': {
     "SCOPE": [

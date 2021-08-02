@@ -9,6 +9,18 @@
                     <h2 class="title">Регистрация</h2>
                     <form action="" method="POST" enctype="multipart/form-data">
                         {% csrf_token %}
+                        {% if form.errors %}
+                            <div class="row align-items-center mt-4">
+                                <div class="col">
+                                    <div class="alert alert-danger" role="alert">
+                                        Пользователь с текущей почтой существует
+                                    </div>
+                                </div>
+                            </div>
+                        {% endif %}
+                        {% for message in messages %}
+                        <p id="messages">{{message}}</p>
+                        {% endfor %}
                         <div class="row row-space">
                             <div class="col-2-mt-2">
                                 <div class="input-group">

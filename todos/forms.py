@@ -3,6 +3,8 @@ from django.contrib.auth.forms import UserCreationForm, AuthenticationForm, Pass
 from django.contrib.auth.models import User
 from .models import *
 from django.contrib.auth import authenticate, login
+from django.core.exceptions import ValidationError
+from django.contrib import messages
 
 
 class TodoUpdateForm(forms.ModelForm):
@@ -45,6 +47,12 @@ class CreateUserForm(UserCreationForm):
 	class Meta:
 		model = User
 		fields = ['username', 'first_name','last_name', 'password1', 'password2', 'email']
+
+	def clean(self):
+		email = self.cleaned_data.get('email')
+		if User.objects.filter(email=email).exists():
+			raise ValidationError("Пользователь с такой почтой уже существует")
+		return self.cleaned_data
 
 
 
