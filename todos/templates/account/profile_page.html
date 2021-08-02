@@ -48,7 +48,7 @@
                     <div class="col-sm-9 text-secondary">
                       Премиум статуса нет
                     </div>
-                      {% elif user.profile.premium_status == True%}
+                      {% elif request.user.profile.premium_status == True%}
                     <div class="col-sm-9 text-secondary">
                       Премиум статус есть
                     </div>
