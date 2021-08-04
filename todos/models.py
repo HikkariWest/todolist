@@ -10,7 +10,7 @@ def user_image_dir(instance, filename):
 
 class Profile(models.Model):
 	user = models.OneToOneField(User, null = True, on_delete=models.CASCADE)
-	photo = models.ImageField(upload_to=user_image_dir, blank=True, default='media/default_profile_image.jpg')
+	photo = models.ImageField(upload_to=user_image_dir, blank=True, default='avatars/default_profile_image.jpg')
 	first_name = models.CharField(max_length = 50)
 	premium_status = models.BooleanField(default=False)
 	last_name = models.CharField(max_length = 50)
