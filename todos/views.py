@@ -176,7 +176,6 @@ def logout_page(request): #Функция логаута
 	logout(request) #Происходит сам логаут юзера
 	return redirect('login_page') #Переход на страницу логина
 
-
 @login_required(login_url='login_page')
 def change_password(request): #Функция смены пароля
 	if request.method == 'POST': #Проверка на метод POST

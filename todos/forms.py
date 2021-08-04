@@ -50,9 +50,18 @@ class CreateUserForm(UserCreationForm):
 
 	def clean(self):
 		email = self.cleaned_data.get('email')
+		username = self.cleaned_data.get('username')
+		password1 = self.cleaned_data.get("password")
+		password2 = self.cleaned_data.get("confirm_password")
+		if password1 != password2:
+			raise forms.ValidationError("Пароли не совпадают")
 		if User.objects.filter(email=email).exists():
-			raise ValidationError("Пользователь с такой почтой уже существует")
+			raise forms.ValidationError("Пользователь с такой почтой уже существует")
+		if User.objects.exclude(pk=self.instance.pk).filter(username=username).exists():
+			raise forms.ValidationError('Такой логин уже используется.')
 		return self.cleaned_data
+
+
 
 
 

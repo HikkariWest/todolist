@@ -724,3 +724,7 @@ input[type=submit] {
 .div-category{
     width: 10%;
 }
+
+.alert-danger{
+    margin-bottom: 28px;
+}
