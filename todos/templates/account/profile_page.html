@@ -60,8 +60,8 @@
                     <div class="row" >
                       <div class="col-sm-12">
                         <a class="btn btn-info" target="__blank" href="{% url 'profile_edit' %}">Редактировать профиль</a>
-                        {% if request.user.password == True %}
-                          <a class="btn btn-info" href="{% url 'change_password' %}">Сменить пароль</a>                          
+                        {% if request.user.has_usable_password %}
+                          <a class="btn btn-info" href="{% url 'change_password' %}">Сменить пароль</a>                      
                         {% endif %}
                         <a class="btn btn-info" href="{% url 'profile_change_status_page' %}">Купить подписку</a>
                       </div>
